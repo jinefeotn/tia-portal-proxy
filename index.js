@@ -5,7 +5,7 @@ const app = express();
 app.get('/tiaportal', async (req, res) => {
   try {
     console.log('TIA Portal isteği alındı');
-    const tiaPortalUrl = 'https://tia-portal-ornek.com/en-US/tiaportal/home?api=V20';
+    const tiaPortalUrl = 'https://tia-portal-genel.com/en-US/tiaportal/home?api=V20';
     console.log(`TIA Portal URL’sine istek gönderiliyor: ${tiaPortalUrl}`);
     const response = await axios.get(tiaPortalUrl, {
       httpsAgent: new (require('https').Agent)({ rejectUnauthorized: false })
