@@ -2,16 +2,27 @@ const express = require('express');
 const axios = require('axios');
 const app = express();
 
-app.get('/tiaportal', async (req, res) => {
+const tiaPortalBaseUrl = 'https://tia-portal-genel.com'; // TIA Portal’ın genel URL’sini buraya yazın
+
+app.get('/tiaportal/*', async (req, res) => {
   try {
-    console.log('TIA Portal isteği alındı');
-    const tiaPortalUrl = 'https://tia-portal-ornek.com/en-US/tiaportal/home?api=V20';
-    console.log(`TIA Portal URL’sine istek gönderiliyor: ${tiaPortalUrl}`);
-    const response = await axios.get(tiaPortalUrl, {
+    const path = req.path.replace('/tiaportal', '');
+    const fullUrl = `${tiaPortalBaseUrl}${path}${req.url.includes('?') ? req.url.split('?')[1] : ''}`;
+    console.log(`İstek gönderiliyor: ${fullUrl}`);
+    const response = await axios.get(fullUrl, {
       httpsAgent: new (require('https').Agent)({ rejectUnauthorized: false })
     });
-    console.log('TIA Portal’dan yanıt alındı:', response.status);
-    res.send(response.data);
+    console.log('Yanıt alındı:', response.status);
+
+    // Eğer yanıt HTML ise, script yollarını güncelle
+    if (response.headers['content-type'].includes('text/html')) {
+      let html = response.data;
+      // Script yollarını TIA Portal’ın genel URL’sinden proxy URL’sine yönlendir
+      html = html.replace(/(src|href)="(\/[^"]*)"/g, `$1="${tiaPortalBaseUrl}$2"`);
+      res.send(html);
+    } else {
+      res.send(response.data);
+    }
   } catch (error) {
     console.error('Hata oluştu:', error.message);
     if (error.response) {
