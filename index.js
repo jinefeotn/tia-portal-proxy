@@ -1,11 +1,14 @@
 const express = require('express');
+const path = require('path');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-  res.send('Merhaba, bu jinefeotn tarafından güncellenen bir projedir!');
+    res.sendFile(path.join(__dirname, 'newsitemap.html'));
 });
 
 app.listen(port, () => {
-  console.log(`Sunucu ${port} portunda çalışıyor.`);
+    console.log(`Sunucu http://localhost:${port} adresinde çalışıyor`);
 });
