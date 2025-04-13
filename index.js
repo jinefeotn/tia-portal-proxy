@@ -5,13 +5,13 @@ const app = express();
 const port = process.env.PORT || 10000;
 
 app.use('/tiaportal', createProxyMiddleware({
-    target: 'http://localhost:5112', // Yerel sunucu adresi
+    target: 'http://localhost:5112', // Yerel sunucu (değiştirilmesi gerekir)
     changeOrigin: true,
     pathRewrite: {
-        '^/tiaportal': '/en-US/tiaportal/home' // Yerel yol
+        '^/tiaportal': '/en-US/tiaportal/home'
     },
     onProxyReq: (proxyReq, req, res) => {
-        proxyReq.setHeader('api', 'V20'); // ?api=V20 parametresini ekle
+        proxyReq.setHeader('api', 'V20');
     }
 }));
 
