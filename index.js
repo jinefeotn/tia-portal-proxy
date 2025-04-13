@@ -14,8 +14,10 @@ app.get('/tiaportal', (req, res) => {
             <title>TIA Portal Home</title>
         </head>
         <body>
-            <h1>TIA Portal Home (Simülasyon)</h1>
-            <p>Bu, internetten oluşturulan bir test sayfasıdır. API: V20</p>
+            <h1>TIA Portal Home</h1>
+            <p>Bu sayfa, Render üzerinden simüle edilmiştir. Orijinal URL: https://localhost:5112/en-US/tiaportal/home?api=V20</p>
+            <p>API Versiyonu: V20</p>
+            <p>Örnek Veri: TIA Portal kontrol paneli simülasyonu.</p>
         </body>
         </html>
     `);
